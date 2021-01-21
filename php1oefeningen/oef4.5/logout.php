@@ -1,0 +1,40 @@
+<?php
+error_reporting( E_ALL );
+ini_set( 'display_errors', 1 );
+
+$public_access =  true;
+require_once "lib/autoload.php";
+$_SESSION["user"] = [];
+session_destroy();
+session_start();
+header("http://localhost/php1cursus/php1oefeningen/oef4.5/login.php?logout=true");
+
+PrintHead();
+PrintJumbo( $title = "Login", $subtitle = "" );
+?>
+
+<div class="container">
+    <div class="row">
+
+        <?php
+        //get data
+        $data = [ 0 => [ "usr_email" => "", "usr_password" => "" ]];
+
+        //get template
+        $output = file_get_contents("templates/login.html");
+
+        //add extra elements
+        $extra_elements['csrf_token'] = GenerateCSRF( "login.php"  );
+
+        //merge
+        $output = MergeViewWithData( $output, $data );
+        $output = MergeViewWithExtraElements( $output, $extra_elements );
+
+        print $output;
+        ?>
+
+    </div>
+</div>
+
+</body>
+</html>
